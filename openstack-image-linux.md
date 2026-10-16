@@ -9,10 +9,10 @@ Images to prepare:
 | Operating system | Official source |
 | --- | --- |
 | Ubuntu 26.04 | https://cloud-images.ubuntu.com/releases/26.04/release/ |
-| AlmaLinux 10.2 | https://repo.almalinux.org/almalinux/10/cloud/x86\_64/images/ |
-| AlmaLinux 9.8 | https://repo.almalinux.org/almalinux/9/cloud/x86\_64/images/ |
-| Fedora 43 | https://dl.fedoraproject.org/pub/fedora/linux/releases/43/Cloud/x86\_64/images/ |
-| Fedora 44 | https://dl.fedoraproject.org/pub/fedora/linux/releases/44/Cloud/x86\_64/images/ |
+| AlmaLinux 10.2 | https://repo.almalinux.org/almalinux/10/cloud/x86_64/images/ |
+| AlmaLinux 9.8 | https://repo.almalinux.org/almalinux/9/cloud/x86_64/images/ |
+| Fedora 43 | https://dl.fedoraproject.org/pub/fedora/linux/releases/43/Cloud/x86_64/images/ |
+| Fedora 44 | https://dl.fedoraproject.org/pub/fedora/linux/releases/44/Cloud/x86_64/images/ |
 
 ## 2. Preparing the host (Ubuntu)
 
