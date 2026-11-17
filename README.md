@@ -156,7 +156,8 @@ This file can be imported into OpenStack, Glance, or KVM-based environments.
 ## Bare metal (UEFI) — `windows-baremetal.pkr.hcl`
 
 An image for physical servers, deployed by minibar: the deployer
-writes the raw disk to the server's disk and a small FAT partition labelled `cidata` (NoCloud) after it.
+writes the raw disk to the server's disk and an OpenStack config drive at the end of it: a small FAT
+partition labelled `config-2` with `meta_data.json` (hostname, `admin_pass`), `network_data.json` and `user_data`.
 
 Differences from the OpenStack build:
 
@@ -167,7 +168,9 @@ Differences from the OpenStack build:
   (`Class = SCSIAdapter`) become boot-start (`scripts/05-drivers.ps1`). `scripts/fetch-dell-drivers.sh`
   downloads and unpacks the Dell ones (PERC H740P, ConnectX-4 Lx) with SHA-256 from Dell's catalog.
 - OpenSSH Server on (PowerShell shell, port 22), host keys made on the server's first start.
-- cloudbase-init reads only NoCloud from a local volume (`files/cloudbase-init-baremetal.conf`).
+- cloudbase-init reads only the config drive partition (`ConfigDriveService`, `files/cloudbase-init-baremetal.conf`) and
+  sets the Administrator password from `admin_pass` (`SetUserPasswordPlugin`). VLANs come on single-card LBFO teams:
+  cloudbase-init creates a VLAN only on a team.
 - Output: `format = "raw"`; compress with `zstd` for the deployer.
 
 Build host packages: `qemu-system-x86 qemu-utils ovmf xorriso zstd curl 7zip` and Packer.

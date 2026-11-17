@@ -1,6 +1,6 @@
 # Windows Server for bare metal (minibar): UEFI + GPT, no virtio in the image, vendor drivers from
-# drivers/ (storage controllers boot-start), OpenSSH and RDP on, cloudbase-init reading a local NoCloud
-# volume ("cidata") that the deployer writes next to the image. The result is a raw disk:
+# drivers/ (storage controllers boot-start), OpenSSH and RDP on, cloudbase-init reading an OpenStack
+# config drive (FAT partition "config-2") that the deployer writes at the end of the disk. The result is a raw disk:
 # compress it with zstd after the build (README) and the deployer writes it to the server's disk.
 #   packer build -var-file=vars/win2025-baremetal.pkrvars.hcl -var iso_url=... windows-baremetal.pkr.hcl
 packer {
