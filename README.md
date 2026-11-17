@@ -160,7 +160,7 @@ writes the raw disk to the server's disk and a small FAT partition labelled `cid
 
 Differences from the OpenStack build:
 
-- UEFI (OVMF, `q35`) and GPT: EFI 512 MB, MSR 128 MB, Windows on the rest, no Recovery partition after C:
+- UEFI (OVMF, `q35`) and GPT: EFI 512 MB, MSR 128 MB, Windows on the rest; the Recovery partition Setup adds after C: is removed (`scripts/06-recovery.ps1`)
   (cloudbase-init extends C: to the whole disk on the server).
 - No virtio: the build VM uses an AHCI disk and e1000, both inbox. `Autounattend.xml` comes on a CD (`cd_content`).
 - Vendor drivers from `drivers/<component>/` are staged into the driver store; storage controller drivers

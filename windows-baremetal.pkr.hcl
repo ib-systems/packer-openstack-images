@@ -108,12 +108,11 @@ source "qemu" "windows-baremetal" {
   }
   cd_label = "UNATTEND"
 
-  # UEFI Windows media: "Press any key to boot from CD or DVD..." for a few seconds after OVMF starts.
-  boot_wait = "3s"
-  boot_command = [
-    "<spacebar><wait><spacebar><wait><spacebar><wait><spacebar><wait><spacebar><wait>",
-    "<spacebar><wait><spacebar><wait><spacebar><wait><spacebar><wait><spacebar>",
-  ]
+  # UEFI Windows media asks "Press any key to boot from CD or DVD..." for a few seconds after OVMF
+  # starts: press <up> once a second for 10 s, as rgl/windows-vagrant's UEFI templates do (harmless
+  # once Setup runs).
+  boot_wait    = "1s"
+  boot_command = ["<up><wait><up><wait><up><wait><up><wait><up><wait><up><wait><up><wait><up><wait><up><wait><up><wait>"]
 
   qemuargs = [
     ["-cpu", "host"],
@@ -163,6 +162,11 @@ build {
 
   provisioner "powershell" {
     script = "scripts/04-openssh.ps1"
+  }
+
+  # Setup puts a Recovery partition after C:, which would stop C: from growing on the server.
+  provisioner "powershell" {
+    script = "scripts/06-recovery.ps1"
   }
 
   provisioner "file" {
