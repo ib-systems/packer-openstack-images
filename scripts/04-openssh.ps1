@@ -8,7 +8,8 @@ if ($cap -and $cap.State -ne 'Installed') { Add-WindowsCapability -Online -Name 
 if (-not (Get-Service sshd -ErrorAction SilentlyContinue)) { throw 'sshd is not installed' }
 Set-Service sshd -StartupType Automatic
 
-New-Item -Path 'HKLM:\SOFTWARE\OpenSSH' -Force | Out-Null
+# Only when missing: New-Item -Force would delete an existing key with its values.
+if (-not (Test-Path 'HKLM:\SOFTWARE\OpenSSH')) { New-Item -Path 'HKLM:\SOFTWARE\OpenSSH' | Out-Null }
 New-ItemProperty -Path 'HKLM:\SOFTWARE\OpenSSH' -Name DefaultShell -PropertyType String -Force `
   -Value "$env:windir\System32\WindowsPowerShell\v1.0\powershell.exe" | Out-Null
 
