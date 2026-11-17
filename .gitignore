@@ -1,0 +1,2 @@
+# Vendor drivers are fetched on the build host (scripts/fetch-dell-drivers.sh), not committed.
+/drivers/*/

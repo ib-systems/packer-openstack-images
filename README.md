@@ -152,3 +152,29 @@ output/windows-server-2022-en/windows-server-2022-en
 ```
 
 This file can be imported into OpenStack, Glance, or KVM-based environments.
+
+## Bare metal (UEFI) — `windows-baremetal.pkr.hcl`
+
+An image for physical servers, deployed by minibar: the deployer
+writes the raw disk to the server's disk and a small FAT partition labelled `cidata` (NoCloud) after it.
+
+Differences from the OpenStack build:
+
+- UEFI (OVMF, `q35`) and GPT: EFI 512 MB, MSR 128 MB, Windows on the rest, no Recovery partition after C:
+  (cloudbase-init extends C: to the whole disk on the server).
+- No virtio: the build VM uses an AHCI disk and e1000, both inbox. `Autounattend.xml` comes on a CD (`cd_content`).
+- Vendor drivers from `drivers/<component>/` are staged into the driver store; storage controller drivers
+  (`Class = SCSIAdapter`) become boot-start (`scripts/05-drivers.ps1`). `scripts/fetch-dell-drivers.sh`
+  downloads and unpacks the Dell ones (PERC H740P, ConnectX-4 Lx) with SHA-256 from Dell's catalog.
+- OpenSSH Server on (PowerShell shell, port 22), host keys made on the server's first start.
+- cloudbase-init reads only NoCloud from a local volume (`files/cloudbase-init-baremetal.conf`).
+- Output: `format = "raw"`; compress with `zstd` for the deployer.
+
+Build host packages: `qemu-system-x86 qemu-utils ovmf xorriso zstd curl 7zip` and Packer.
+
+```bash
+scripts/fetch-dell-drivers.sh
+packer init windows-baremetal.pkr.hcl
+packer build -var-file=vars/win2025-baremetal.pkrvars.hcl -var iso_url=/build/isos/win2025.iso windows-baremetal.pkr.hcl
+zstd -T0 -10 output/windows-server-2025-baremetal/windows-server-2025-baremetal -o windows-server-2025-baremetal.raw.zst
+```
