@@ -167,7 +167,8 @@ Differences from the OpenStack build:
 - Vendor drivers from `drivers/<component>/` are staged into the driver store; storage controller drivers
   (`Class = SCSIAdapter`) become boot-start (`scripts/05-drivers.ps1`). `scripts/fetch-dell-drivers.sh`
   downloads and unpacks the Dell ones (PERC H740P, ConnectX-4 Lx) with SHA-256 from Dell's catalog.
-- OpenSSH Server on (PowerShell shell, port 22), host keys made on the server's first start.
+- OpenSSH Server on (PowerShell shell, port 22, open for every firewall profile: Windows Server 2025 brings the rule for
+  Private only), host keys made on the server's first start.
 - cloudbase-init reads only the config drive partition (`ConfigDriveService`, `files/cloudbase-init-baremetal.conf`) and
   sets the Administrator password from `admin_pass` (`SetUserPasswordPlugin`). VLANs come on single-card LBFO teams:
   cloudbase-init creates a VLAN only on a team.
