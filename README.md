@@ -172,6 +172,9 @@ Differences from the OpenStack build:
 - cloudbase-init reads only the config drive partition (`ConfigDriveService`, `files/cloudbase-init-baremetal.conf`) and
   sets the Administrator password from `admin_pass` (`SetUserPasswordPlugin`). VLANs come on single-card LBFO teams:
   cloudbase-init creates a VLAN only on a team.
+- cloudbase-init 1.1.8 gets the retry of [cloudbase/cloudbase-init#225](https://github.com/cloudbase/cloudbase-init/pull/225)
+  for a VLAN team NIC's static address (`scripts/03-cloudbase-init-pr225.ps1`: `osutils\windows.py` from the PR's
+  commit, both files pinned by SHA-256) until a released MSI has it.
 - Output: `format = "raw"`; compress with `zstd` for the deployer.
 
 Build host packages: `qemu-system-x86 qemu-utils ovmf xorriso zstd curl 7zip` and Packer.

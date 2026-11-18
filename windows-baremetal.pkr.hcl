@@ -184,6 +184,11 @@ build {
     script           = "scripts/03-cloudbase-init.ps1"
   }
 
+  # Until a released cloudbase-init has it: the retry of cloudbase/cloudbase-init#225 (VLAN team NICs).
+  provisioner "powershell" {
+    script = "scripts/03-cloudbase-init-pr225.ps1"
+  }
+
   provisioner "powershell" {
     script = "scripts/99-cleanup.ps1"
   }
