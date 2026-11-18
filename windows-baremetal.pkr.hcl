@@ -46,7 +46,7 @@ variable "disk_size" {
 }
 variable "memory" {
   type    = number
-  default = 8192
+  default = 16384 # Windows Update and DISM's component cleanup go faster with more file cache
 }
 variable "cpus" {
   type    = number
@@ -98,6 +98,9 @@ source "qemu" "windows-baremetal" {
   # and none ends up in the image.
   disk_interface = "ide"
   net_device     = "e1000"
+  # Setup and Windows Update flush the disk all the time; the build VM is thrown away anyway, so the host
+  # may ignore the flushes. A host crash during the build means building again.
+  disk_cache = "unsafe"
 
   iso_url      = var.iso_url
   iso_checksum = var.iso_checksum
